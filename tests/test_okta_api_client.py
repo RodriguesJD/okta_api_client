@@ -1,6 +1,6 @@
 import os
 
-from okta_tool_box import okta_tools
+from okta_api_client.okta_tool_box import okta_tools
 
 me = os.environ["WORK_EMAIL"]
 
