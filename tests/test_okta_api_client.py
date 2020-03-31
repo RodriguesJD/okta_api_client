@@ -39,6 +39,7 @@ def test_user_role():
         else:
             assert not find_role
 
+
 def test_all_users():
     every_user = okta_tools.all_users()
     assert isinstance(every_user, list)
