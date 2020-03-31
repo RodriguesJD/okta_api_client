@@ -1,4 +1,4 @@
-from pprint import pprint
+from typing import Union
 import os
 
 import requests
@@ -20,6 +20,23 @@ def find_user(user_email: str) -> object:
     response = requests.get(url=url, headers=headers)
 
     return response
+
+
+def find_user_role(user_id: str) -> Union[dict, bool]:
+    url = f"{base_url}/api/v1/users/{user_id}/roles"
+    headers = {
+        'Accept': "application/json",
+        'Content-Type': "application/json",
+        'Authorization': f"SSWS {key}"
+        }
+
+    response = requests.get(url=url, headers=headers).json()
+    if response:
+        user_role = response
+    else:
+        user_role = False
+
+    return user_role
 
 
 def all_users() -> list:
