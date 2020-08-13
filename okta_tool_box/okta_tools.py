@@ -1,5 +1,6 @@
 from typing import Union
 import os
+from pprint import pprint
 
 import requests
 
@@ -18,7 +19,6 @@ def find_user(user_email: str) -> object:
         }
 
     response = requests.get(url=url, headers=headers)
-
     return response
 
 
@@ -69,3 +69,53 @@ def all_users() -> list:
             all_user_collected = True
 
     return users
+
+
+def all_groups():
+    all_groups_collected = False
+    groups = []
+
+    url = f"{base_url}/api/v1/groups"
+    headers = {
+        'Accept': "application/json",
+        'Content-Type': "application/json",
+        'Authorization': f"SSWS {key}"
+    }
+
+    while not all_groups_collected:
+        response = requests.get(url=url, headers=headers)
+        for group in response.json():
+            groups.append(group)
+
+        if 'next' in response.links.keys():
+            url = response.links["next"]["url"]
+
+        else:
+            all_groups_collected = True
+
+    return groups
+
+
+def all_apps():
+    all_apps_collected = False
+    apps = []
+
+    url = f"{base_url}/api/v1/apps"
+    headers = {
+        'Accept': "application/json",
+        'Content-Type': "application/json",
+        'Authorization': f"SSWS {key}"
+    }
+
+    while not all_apps_collected:
+        response = requests.get(url=url, headers=headers)
+        for app in response.json():
+            apps.append(app)
+
+        if 'next' in response.links.keys():
+            url = response.links["next"]["url"]
+
+        else:
+            all_apps_collected = True
+
+    return apps
